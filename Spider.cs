@@ -8,6 +8,7 @@ public class Spider : MonoBehaviour
 {
     // ExamPlayerController examPlayerController;
     GameObject[] spiders;
+    GameObject selectedSpider;
     public float spiderSpeed = 10.0f;
     // bool moveSpiders = false;
     bool spidersLeft = false;
@@ -18,7 +19,9 @@ public class Spider : MonoBehaviour
     {
         // examPlayerController = GameObject.Find("Player").GetComponent<ExamPlayerController>();
         speechRecognitionExample = GameObject.Find("SpeechRecognitionExampleUI").GetComponent<SpeechRecognitionExample>();
+        spiders = GameObject.FindGameObjectsWithTag("Spider");
         speechRecognitionExample.OnResponse += ManageSpiders;
+        selectedSpider = spiders[0];
         // examPlayerController.OnReachChaise += MakeSpidersMove;
 
     }
@@ -26,14 +29,25 @@ public class Spider : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if (moveSpiders) {
-        //     SpidersChase();
-        // }
+        if (Input.GetKeyDown(KeyCode.Alpha1)) {
+            Debug.Log("Spider 1 selected");
+            selectedSpider = spiders[0];
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) {
+            Debug.Log("Spider 2 selected");
+            selectedSpider = spiders[1];
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) {
+            Debug.Log("Spider 3 selected");
+            selectedSpider = spiders[2];
+        }
         if (spidersLeft) {
             SpidersLeft();
+            spidersLeft = false;
         }
         if (spidersUp) {
             SpidersUp();
+            spidersUp = false;
         }
     }
 
@@ -65,18 +79,13 @@ public class Spider : MonoBehaviour
     // }
     void SpidersUp() {
         spiders = GameObject.FindGameObjectsWithTag("Spider");
-        foreach(GameObject spider in spiders) {
-            spider.transform.position = new Vector3(spider.transform.position.x, spider.transform.position.y + 0.2f, spider.transform.position.z);
-        }
+        selectedSpider.transform.position = new Vector3(selectedSpider.transform.position.x, selectedSpider.transform.position.y + 0.3f, selectedSpider.transform.position.z);
 
     }
 
     void SpidersLeft() {
         spiders = GameObject.FindGameObjectsWithTag("Spider");
-        foreach(GameObject spider in spiders) {
-            spider.transform.position = new Vector3(spider.transform.position.x - 0.2f, spider.transform.position.y, spider.transform.position.z);
-        }
-
+        selectedSpider.transform.position = new Vector3(selectedSpider.transform.position.x - 0.3f, selectedSpider.transform.position.y, selectedSpider.transform.position.z);
     }
 
 }
